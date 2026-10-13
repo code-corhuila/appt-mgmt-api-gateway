@@ -2,24 +2,33 @@
 
 > Single entry point: authentication, routing and rate limiting
 
-Part of the **LMS Library** distributed system — team `lms-library`, Grupo 2.
+Part of the **LMS Library / Appointment Management** distributed system — team `code-corhuila`, Grupo 2.
 Governance and documentation live in [`library-docs`](https://github.com/code-corhuila/library-docs).
 
-## Branching
+## Branching & Governance
 
-Three permanent branches. **None of them accepts a direct commit** — you enter through a child
-branch and leave through a Pull Request.
-
+Three permanent branches:
 ```
 develop  <--PR--  feat/... fix/... chore/...
 qa       <--PR--  qa/...
 main     <--PR--  release/...  hotfix/...
 ```
 
-Promotion happens **by re-application** (`git cherry-pick -x`), never by merging one permanent
-branch into another: `merge develop -> qa` and `merge qa -> main` do not exist in this model.
+`main` requires **1 approval from `@ariel5253`**.
 
-`main` requires **1 approval from `ariel5253`**. On `develop` and `qa` the team sets its own review
-rule.
+## Arquitectura y Componentes
+- **Enrutamiento unificado**: Redirección de llamadas hacia microservicios IAM (`3001`), Citas (`3002`) y Workflow (`3003`).
+- **Seguridad & Tokens**: Inspection y reenvío de headers `authorization` mediante `authForwarder`.
+- **Protección**: Limitación de frecuencia de consumo mediante `rateLimiter`.
 
-Full policy: `00-governance/branching-policy.md` in `library-docs`.
+## Instrucciones de Ejecución
+```bash
+# Instalar dependencias
+npm install
+
+# Iniciar servicio en puerto 8080
+npm start
+
+# Ejecutar pruebas unitarias TDD
+npm test
+```
